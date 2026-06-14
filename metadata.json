@@ -1,0 +1,6 @@
+{
+  "name": "Brownie by Shaaz",
+  "description": "Gourmet, premium, and homemade brownie catalog, custom slot assortment builder, and WhatsApp order pipeline for Brownie by Shaaz.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

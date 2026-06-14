@@ -1,0 +1,106 @@
+import { BrownieItem, Review } from "./types";
+
+export const WHATSAPP_NUMBER = "03019842814";
+export const WHATSAPP_LINK = `https://wa.me/923019842814`;
+
+export const SOCIAL_LINKS = {
+  facebook: "https://www.facebook.com/profile.php?id=61566379356614",
+  instagram: "https://www.instagram.com/brownie_by_shaaz?utm_source=qr&igsh=eTZzMWF1YTA0NmNj"
+};
+
+export const BROWNIE_ITEMS: BrownieItem[] = [
+  {
+    id: "fudge",
+    name: "Chocolate Fudge Brownies",
+    description: "The classic gold-standard! Incredibly fudgy, dense, and rich cocoa brownie with our signature shiny, paper-thin crinkled top. Truly irresistible.",
+    image: "/src/assets/images/fudge_brownie_1781435743579.jpg",
+    prices: {
+      4: 1400,
+      6: 2100
+    },
+    tags: ["Signature", "Fudgy Classy"]
+  },
+  {
+    id: "oreo",
+    name: "Classic Oreo Brownies",
+    description: "Gooey chocolate fudge brownies baked on a base of whole Oreos and generous cookie chunks inside, loaded with crushed Oreos on top for the perfect crunch-meld.",
+    image: "/src/assets/images/oreo_brownie_1781435761604.jpg",
+    prices: {
+      4: 1400,
+      6: 2100
+    },
+    tags: ["Bestseller", "Crunchy & Gooey"]
+  },
+  {
+    id: "dairymilk",
+    name: "Dairy Milk Brownies",
+    description: "Packed with thick melt-in-your-mouth chunks of premium Cadbury Dairy Milk chocolate, blending perfectly with our smooth signature brownie batter as it bakes.",
+    image: "/src/assets/images/dairymilk_brownie_1781435800154.jpg",
+    prices: {
+      4: 1500,
+      6: 2300
+    },
+    tags: ["Premium", "Kid Favorite"]
+  },
+  {
+    id: "nutella",
+    name: "Nutella Swirl Brownies",
+    description: "Marbled with thick layers of premium hazelnut Nutella spread before baking. Delivers double the creamy, nutty chocolate depth in every luxurious slice.",
+    image: "/src/assets/images/nutella_brownie_1781435780714.jpg",
+    prices: {
+      4: 1600,
+      6: 2400
+    },
+    tags: ["Staff Pick", "Intensely Rich"]
+  },
+  {
+    id: "slutty",
+    name: "Decadent Slutty Brownies",
+    description: "The ultimate 3-layered gourmet dessert! Features a buttery chocolate chip cookie dough base, a middle layer of whole Oreo cookies, topped with our signature rich chocolate fudge brownie batter.",
+    image: "/src/assets/images/slutty_brownie_1781435818491.jpg",
+    prices: {
+      4: 1800,
+      6: 2700
+    },
+    tags: ["Ultimate Decadence", "Crowd Pleaser"]
+  }
+];
+
+export const CUSTOMER_REVIEWS: Review[] = [
+  {
+    id: "rev1",
+    author: "Zainab K.",
+    rating: 5,
+    date: "14 days ago",
+    text: "Ordered the Slutty Brownies for my brother's birthday. They were absolutely out of this world! The chocolate cookie dough, Oreo, and brownie layer is genius. Unmatched taste in town!",
+    platform: "instagram",
+    likes: 24
+  },
+  {
+    id: "rev2",
+    author: "M. Haris",
+    rating: 5,
+    date: "1 month ago",
+    text: "If you love dense, gooey, and heavy brownies with that perfect crackly parchment top, Brownie by Shaaz is the real deal. No artificial taste. Chocolate Fudge is extremely high-grade.",
+    platform: "facebook",
+    likes: 18
+  },
+  {
+    id: "rev3",
+    author: "Ayesha Ahmed",
+    rating: 5,
+    date: "3 weeks ago",
+    text: "The customized gift box was beautiful. They added a neat handwritten card for my friend and sent me photos before dispatching. The Nutella one is swirled so generously. Recommended!",
+    platform: "instagram",
+    likes: 15
+  },
+  {
+    id: "rev4",
+    author: "Bilal Lodhi",
+    rating: 5,
+    date: "2 months ago",
+    text: "Amazing taste that doesn't feel overly sweet. Baked right, dense, fudgy, and moist inside. The Dairy Milk brownie had real chocolate chunks. Fast response on WhatsApp too!",
+    platform: "facebook",
+    likes: 31
+  }
+];
