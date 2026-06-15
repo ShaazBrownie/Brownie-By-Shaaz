@@ -36,11 +36,29 @@ export default function OrderTracker({ isOpen, onClose, initialOrderId = "" }: O
     try {
       const response = await fetch(`/api/orders/${idToSearch}`);
       if (!response.ok) {
+        // Fallback for Netlify deployment or missing server: check localStorage
+        const localSaved = localStorage.getItem(`shaaz_order_${idToSearch}`);
+        if (localSaved) {
+          try {
+            const parsed = JSON.parse(localSaved);
+            setOrder(parsed);
+            return;
+          } catch (e) {}
+        }
         throw new Error("We couldn't locate this Order ID. Please double check the ID or place a fresh pre-order first!");
       }
       const data = await response.json();
       setOrder(data);
     } catch (err: any) {
+      // Fallback in catch block as well for general network/offline operations
+      const localSaved = localStorage.getItem(`shaaz_order_${idToSearch}`);
+      if (localSaved) {
+        try {
+          const parsed = JSON.parse(localSaved);
+          setOrder(parsed);
+          return;
+        } catch (e) {}
+      }
       setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
@@ -50,17 +68,81 @@ export default function OrderTracker({ isOpen, onClose, initialOrderId = "" }: O
   const handleSimulateStatus = async () => {
     if (!order) return;
     setSimulating(true);
+
     try {
       const response = await fetch(`/api/orders/${order.id}/status`, {
         method: "PATCH"
       });
-      if (!response.ok) {
-        throw new Error("Failed to advance status.");
+      if (response.ok) {
+        const updatedOrder = await response.json();
+        setOrder(updatedOrder);
+        setSimulating(false);
+        return;
       }
-      const updatedOrder = await response.json();
-      setOrder(updatedOrder);
-    } catch (err: any) {
-      console.error("Simulation error:", err);
+    } catch (err) {
+      console.log("Interactive Workbench: API not found, updating via local storage simulation logic");
+    }
+
+    // Client-side offline/static simulation fallback (perfect for Netlify)
+    try {
+      const localSaved = localStorage.getItem(`shaaz_order_${order.id}`);
+      const baseOrder = localSaved ? JSON.parse(localSaved) : order;
+
+      const states = ["received", "confirmed", "baking", "dispatched", "delivered"];
+      const currentIndex = states.indexOf(baseOrder.status || "received");
+      let nextIndex = currentIndex + 1;
+      if (nextIndex >= states.length) nextIndex = states.length - 1;
+
+      const nextStatus = states[nextIndex];
+      const nowStr = new Date().toISOString();
+
+      let title = "";
+      let description = "";
+
+      switch (nextStatus) {
+        case "received":
+          title = "Order Request Transmitted";
+          description = "Bespoke brownie cart sent and order registered in database. Direct WhatsApp link generated.";
+          break;
+        case "confirmed":
+          title = "WhatsApp Confirmed & Verified";
+          description = "Chef Shaaz accepted and confirmed your baking request. Ingredients prepped with pure premium butter.";
+          break;
+        case "baking":
+          title = "Mixing Butter & Cocoa 🥣";
+          description = "Our kitchen is currently whipping pure dark chocolate chips, melting farm butter, and baking to that rich, fudgy, decadent level.";
+          break;
+        case "dispatched":
+          title = "Out for Dispatch (Rider Assigned)";
+          description = "Freshly sealed premium brownie box is packaged with note and handed to local Lahore dispatch rider.";
+          break;
+        case "delivered":
+          title = "Delivered Soft & Chewy! 🍫";
+          description = "Handed over warm and rich! We hope these brownie layers sweeten your day. Feel free to review us!";
+          break;
+      }
+
+      const updatedLocal = {
+        ...baseOrder,
+        status: nextStatus,
+        timeline: [
+          ...(baseOrder.timeline || []),
+          {
+            status: nextStatus,
+            title,
+            description,
+            timestamp: nowStr
+          }
+        ]
+      };
+
+      try {
+        localStorage.setItem(`shaaz_order_${order.id}`, JSON.stringify(updatedLocal));
+      } catch (e) {}
+
+      setOrder(updatedLocal);
+    } catch (e) {
+      console.error("Local simulation error:", e);
     } finally {
       setSimulating(false);
     }

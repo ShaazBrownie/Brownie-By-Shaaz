@@ -190,6 +190,44 @@ Thank you for supporting our homemade brownie business! Baked with love by Shaaz
     const encodedText = encodeURIComponent(textPayload);
     const waUrl = `https://wa.me/923019842814?text=${encodedText}`;
 
+    // Save order data client-side in localStorage as a high-fidelity backup for Netlify/static hosting
+    const localFallbackOrder = {
+      id: orderId,
+      name: formData.name.trim(),
+      customerName: formData.name.trim(),
+      phone: formData.phone.trim(),
+      deliveryType: formData.deliveryType,
+      address: formData.address.trim(),
+      deliveryDate: formData.deliveryDate,
+      cartItems: cartItems.map(item => ({
+        name: item.name,
+        pieces: item.pieces,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      subtotal: grandTotal,
+      discount: loyaltyDiscount,
+      deliveryFee: deliveryFee,
+      totalBill: totalBill,
+      isGift: formData.isGift,
+      giftMessage: formData.giftMessage,
+      status: "received",
+      createdAt: new Date().toISOString(),
+      timeline: [
+        {
+          status: "received",
+          title: "Order Request Transmitted",
+          description: "Bespoke brownie cart sent and order registered in database. Direct WhatsApp link generated.",
+          timestamp: new Date().toISOString()
+        }
+      ]
+    };
+    try {
+      localStorage.setItem(`shaaz_order_${orderId}`, JSON.stringify(localFallbackOrder));
+    } catch (e) {
+      console.warn("Failed to write offline local storage order:", e);
+    }
+
     // POST order directly to backend JSON store so it's instantly trackable
     fetch("/api/orders", {
       method: "POST",

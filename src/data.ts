@@ -13,7 +13,7 @@ export const BROWNIE_ITEMS: BrownieItem[] = [
     id: "fudge",
     name: "Chocolate Fudge Brownies",
     description: "The classic gold-standard! Incredibly fudgy, dense, and rich cocoa brownie with our signature shiny, paper-thin crinkled top. Truly irresistible.",
-    image: "/src/assets/images/fudge_brownie_1781435743579.jpg",
+    image: "/images/fudge_brownie_1781435743579.jpg",
     prices: {
       4: 1400,
       6: 2100
@@ -24,7 +24,7 @@ export const BROWNIE_ITEMS: BrownieItem[] = [
     id: "oreo",
     name: "Classic Oreo Brownies",
     description: "Gooey chocolate fudge brownies baked on a base of whole Oreos and generous cookie chunks inside, loaded with crushed Oreos on top for the perfect crunch-meld.",
-    image: "/src/assets/images/oreo_brownie_1781435761604.jpg",
+    image: "/images/oreo_brownie_1781435761604.jpg",
     prices: {
       4: 1400,
       6: 2100
@@ -35,7 +35,7 @@ export const BROWNIE_ITEMS: BrownieItem[] = [
     id: "dairymilk",
     name: "Dairy Milk Brownies",
     description: "Packed with thick melt-in-your-mouth chunks of premium Cadbury Dairy Milk chocolate, blending perfectly with our smooth signature brownie batter as it bakes.",
-    image: "/src/assets/images/dairymilk_brownie_1781435800154.jpg",
+    image: "/images/dairymilk_brownie_1781435800154.jpg",
     prices: {
       4: 1500,
       6: 2300
@@ -46,7 +46,7 @@ export const BROWNIE_ITEMS: BrownieItem[] = [
     id: "nutella",
     name: "Nutella Swirl Brownies",
     description: "Marbled with thick layers of premium hazelnut Nutella spread before baking. Delivers double the creamy, nutty chocolate depth in every luxurious slice.",
-    image: "/src/assets/images/nutella_brownie_1781435780714.jpg",
+    image: "/images/nutella_brownie_1781435780714.jpg",
     prices: {
       4: 1600,
       6: 2400
@@ -57,7 +57,7 @@ export const BROWNIE_ITEMS: BrownieItem[] = [
     id: "slutty",
     name: "Decadent Slutty Brownies",
     description: "The ultimate 3-layered gourmet dessert! Features a buttery chocolate chip cookie dough base, a middle layer of whole Oreo cookies, topped with our signature rich chocolate fudge brownie batter.",
-    image: "/src/assets/images/slutty_brownie_1781435818491.jpg",
+    image: "/images/slutty_brownie_1781435818491.jpg",
     prices: {
       4: 1800,
       6: 2700
