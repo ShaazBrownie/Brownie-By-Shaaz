@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrownieItem, CartItem, Review } from "./types";
+import heroBrowniesImg from "./assets/images/hero_brownies_1781435720665.jpg";
+import appLogoImg from "./assets/images/app_logo_1781458498390.jpg";
 import { BROWNIE_ITEMS, CUSTOMER_REVIEWS, SOCIAL_LINKS, WHATSAPP_NUMBER } from "./data";
 import MenuSection from "./components/MenuSection";
 import BoxBuilder from "./components/BoxBuilder";
@@ -109,7 +111,7 @@ export default function App() {
       pieces: size,
       price: price,
       quantity: 1,
-      image: "/images/hero_brownies_1781435720665.jpg", // default mix thumbnail
+      image: heroBrowniesImg, // default mix thumbnail
     };
 
     setCartItems((prev) => [...prev, customCartItem]);
@@ -178,7 +180,7 @@ export default function App() {
           <a href="#" className="flex items-center gap-3.5 group">
             <div className="w-12 h-12 border border-[#d4a373]/35 rounded-full overflow-hidden flex items-center justify-center transition-all group-hover:scale-105 duration-300 bg-[#1e130d] shadow-md shadow-[#120a07]">
               <img 
-                src="/images/app_logo_1781458498390.jpg" 
+                src={appLogoImg} 
                 alt="Brownie by Shaaz Logo Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -342,7 +344,7 @@ export default function App() {
                 
                 <div className="relative rounded-3xl overflow-hidden border border-[#2a1b12] shadow-2xl aspect-[16/11]">
                   <img
-                    src="/images/hero_brownies_1781435720665.jpg"
+                    src={heroBrowniesImg}
                     alt="Premium brownie stack by Shaaz"
                     className="w-full h-full object-cover filter brightness-[0.9]"
                     referrerPolicy="no-referrer"
@@ -728,7 +730,7 @@ export default function App() {
               <div className="flex items-center gap-3.5">
                 <div className="w-12 h-12 border border-[#d4a373]/30 rounded-full overflow-hidden bg-[#1e130d] flex-shrink-0 shadow-md">
                   <img 
-                    src="/images/app_logo_1781458498390.jpg" 
+                    src={appLogoImg} 
                     alt="Brownie by Shaaz Logo Graphic" 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
