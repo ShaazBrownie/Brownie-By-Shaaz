@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CartItem } from "../types";
 import { WHATSAPP_NUMBER } from "../data";
-import { X, Plus, Minus, Trash2, ShoppingBag, Gift, User, Phone, MapPin, Calendar, Send, Sparkles, CheckCircle2, Copy, FileText, ChevronDown } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, Gift, User, Phone, MapPin, Calendar, Send, Sparkles, CheckCircle2, Copy, FileText, ChevronDown, Wallet, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface CartDrawerProps {
@@ -45,6 +45,7 @@ export default function CartDrawer({
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [confirmedOrder, setConfirmedOrder] = useState<{ id: string; waUrl: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [jazzCashCopied, setJazzCashCopied] = useState(false);
 
   // Get previous loyalty statistics for current phone
   const getCustomerLoyalty = (phoneNum: string) => {
@@ -180,6 +181,12 @@ ${orderDetailText}
 ${loyaltyDiscount > 0 ? `• *Repeated Customer Discount:* -Rs ${loyaltyDiscount} (Order #${loyalty.orderCount + 1} 👑)\n` : ""}• *Delivery Fee:* Rs ${deliveryFee}
 • *Total Payable:* Rs ${totalBill}
 ${loyaltyDiscount > 0 ? `\n🎉 *LOYALTY MILESTONE:* Unlocked repeated buyer celebration discount of Rs ${loyaltyDiscount}!` : `\n⭐ *POINTS ALERT:* You are earning +${totalItems * 50} Shaaz Sweet Rewards Points on this order!`}
+
+💳 *JAZZCASH WALLET PAYMENT DETAILS:*
+• *Transfer Rs ${totalBill} to:*
+  ↳ *Number:* 03270711962
+  ↳ *Account Title:* Shazia Anwar
+⚠️ *IMPORTANT:* Please reply/send your *payment screenshot* in this chat. Your order will be confirmed immediately upon screenshot validation!
 -----------------------------------------
 *Note:* We bake fresh to order with pure farm ingredients. 
 ⚠️ For urgent within-day delivery under 1 day, please contact Chef Shaaz directly at 03009842814.
@@ -365,6 +372,50 @@ Thank you for supporting our homemade brownie business! Baked with love by Shaaz
                       <div className="flex justify-between">
                         <span>WhatsApp Location Rule:</span>
                         <span className="text-[#d4a373] font-medium">Pin required via chat</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Compact success JazzCash details card */}
+                  <div className="bg-[#1b1009] border border-red-500/20 rounded-2xl p-4 text-left relative overflow-hidden max-w-md mx-auto">
+                    <div className="absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b from-[#da121a] via-[#f7d110] to-[#da121a]" />
+                    <div className="ml-1.5 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Wallet className="w-3.5 h-3.5 text-[#d4a373]" />
+                          <span className="text-[11px] font-bold font-sans text-[#f8f1e9] uppercase tracking-wide">JazzCash Wallet (Pay to Confirm)</span>
+                        </div>
+                        <span className="text-[8px] bg-[#da121a]/15 text-[#da121a] font-extrabold uppercase px-1.5 py-0.5 rounded border border-[#da121a]/25">Transfer Pending</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="bg-[#120a07] border border-[#2a1b12] p-2 rounded-xl flex items-center justify-between gap-1.5">
+                          <div>
+                            <span className="text-[8px] text-[#8d7c6b] block uppercase tracking-wide">Number</span>
+                            <span className="font-mono text-xs font-bold text-[#f8f1e9] select-all">03270711962</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              try {
+                                navigator.clipboard.writeText("03270711962");
+                                setJazzCashCopied(true);
+                                setTimeout(() => setJazzCashCopied(false), 2000);
+                              } catch (e) {}
+                            }}
+                            className="text-[9px] font-semibold bg-[#1e130d] hover:bg-[#d4a373] text-[#d4a373] hover:text-[#120a07] border border-[#d4a373]/20 px-2 py-1 rounded transition"
+                          >
+                            {jazzCashCopied ? "Copied" : "Copy"}
+                          </button>
+                        </div>
+                        <div className="bg-[#120a07] border border-[#2a1b12] p-2 rounded-xl">
+                          <span className="text-[8px] text-[#8d7c6b] block uppercase tracking-wide">Account Title</span>
+                          <span className="font-sans text-xs font-bold text-[#f8f1e9] truncate block">Shazia Anwar</span>
+                        </div>
+                      </div>
+
+                      <div className="bg-amber-500/5 border border-amber-500/15 p-2 rounded-xl text-[10px] text-amber-300 font-light leading-relaxed">
+                        📸 <strong>Baking Rule:</strong> Complete the transfer above, then click below to send the <strong>payment screenshot</strong> to WhatsApp number <strong>03019842814</strong>!
                       </div>
                     </div>
                   </div>
@@ -835,6 +886,63 @@ Thank you for supporting our homemade brownie business! Baked with love by Shaaz
                             </motion.div>
                           )}
                         </AnimatePresence>
+                      </div>
+                    </div>
+
+                    {/* JazzCash Mobile Wallet Payment Card */}
+                    <div className="bg-[#1b1009] border border-red-500/20 rounded-2xl p-5 space-y-3.5 relative overflow-hidden mt-6">
+                      <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-gradient-to-b from-[#da121a] via-[#f7d110] to-[#da121a]" />
+                      
+                      <div className="ml-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Wallet className="w-4 h-4 text-[#d4a373]" />
+                            <span className="text-xs font-bold font-sans text-[#f8f1e9] uppercase tracking-wider">
+                              JazzCash Mobile Wallet
+                            </span>
+                          </div>
+                          <span className="bg-[#da121a]/10 border border-[#da121a]/35 text-[#da121a] text-[9px] px-2 py-0.5 rounded font-extrabold uppercase tracking-wide">
+                            Active
+                          </span>
+                        </div>
+
+                        <p className="text-[11.5px] text-[#b8a99a] mt-2 leading-relaxed font-light">
+                          Please transfer your total billing amount to the following phone wallet. Our chef will instantly verify the receipt.
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-3">
+                          <div className="bg-[#120a07] border border-[#2a1b12] p-2.5 rounded-xl flex items-center justify-between gap-2.5">
+                            <div>
+                              <span className="text-[9px] text-[#8d7c6b] block uppercase tracking-wide">Number</span>
+                              <span className="font-mono text-[12.5px] font-bold text-[#f8f1e9] select-all">03270711962</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                try {
+                                  navigator.clipboard.writeText("03270711962");
+                                  setJazzCashCopied(true);
+                                  setTimeout(() => setJazzCashCopied(false), 2000);
+                                } catch (e) {}
+                              }}
+                              className="text-[10px] font-semibold bg-[#1e130d] hover:bg-[#d4a373] text-[#d4a373] hover:text-[#120a07] border border-[#d4a373]/25 px-2.5 py-1.5 rounded-lg transition"
+                            >
+                              {jazzCashCopied ? "Copied" : "Copy"}
+                            </button>
+                          </div>
+
+                          <div className="bg-[#120a07] border border-[#2a1b12] p-2.5 rounded-xl">
+                            <span className="text-[9px] text-[#8d7c6b] block uppercase tracking-wide">Account Title</span>
+                            <span className="font-sans text-[12.5px] font-bold text-[#f8f1e9]">Shazia Anwar</span>
+                          </div>
+                        </div>
+
+                        <div className="bg-amber-500/5 border border-amber-500/10 p-2.5 rounded-xl text-[10px] text-amber-300 mt-3 leading-relaxed font-light italic flex items-start gap-1.5">
+                          <span className="leading-none text-xs">⚠️</span>
+                          <span>
+                            <strong>Screenshot Required:</strong> Order will be confirmed completely after sending the payment screenshot on WhatsApp number <strong>03019842814</strong>!
+                          </span>
+                        </div>
                       </div>
                     </div>
 

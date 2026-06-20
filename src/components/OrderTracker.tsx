@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, Search, Truck, Loader2, CheckCircle2, Clock, MapPin, Gift, Phone, Send, ChevronRight } from "lucide-react";
+import { X, Search, Truck, Loader2, CheckCircle2, Clock, MapPin, Gift, Phone, Send, ChevronRight, Copy, Wallet } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface OrderTrackerProps {
@@ -14,6 +14,7 @@ export default function OrderTracker({ isOpen, onClose, initialOrderId = "" }: O
   const [error, setError] = useState<string | null>(null);
   const [order, setOrder] = useState<any | null>(null);
   const [simulating, setSimulating] = useState(false);
+  const [jazzCashCopied, setJazzCashCopied] = useState(false);
 
   useEffect(() => {
     if (initialOrderId) {
@@ -444,6 +445,66 @@ export default function OrderTracker({ isOpen, onClose, initialOrderId = "" }: O
                         <span className="font-sans text-[#8d7c6b] text-xs">Total Bill (with Lahore Rider):</span>
                         <span className="font-serif font-bold text-base text-[#d4a373]">Rs {order.totalBill}</span>
                       </div>
+
+                      {/* JazzCash Payment Wallet Instructions (Dynamic Status check) */}
+                      {order.status === "received" ? (
+                        <div className="bg-[#1b1009] border border-red-500/20 rounded-2xl p-4.5 space-y-3 relative overflow-hidden">
+                          <div className="absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b from-[#da121a] via-[#f7d110] to-[#da121a]" />
+                          <div className="ml-1.5 space-y-2.5 text-left">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1.5">
+                                <Wallet className="w-4 h-4 text-[#d4a373]" />
+                                <span className="text-xs font-bold font-sans text-[#f8f1e9] uppercase tracking-wider">JazzCash Wallet (Pay to Confirm)</span>
+                              </div>
+                              <span className="text-[9px] bg-[#da121a]/15 text-[#da121a] font-extrabold uppercase px-2 py-0.5 rounded border border-[#da121a]/25 animate-pulse">Awaiting Verification</span>
+                            </div>
+
+                            <p className="text-[11px] text-[#b8a99a] leading-relaxed font-light">
+                              To lock in this order in Chef Shaaz's schedule, please transfer <strong className="text-[#f8f1e9]">Rs {order.totalBill}</strong> to the account below, then send the payment screenshot.
+                            </p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                              <div className="bg-[#120a07] border border-[#2a1b12] p-2 rounded-xl flex items-center justify-between gap-1.5">
+                                <div>
+                                  <span className="text-[8px] text-[#8d7c6b] block uppercase tracking-wide">Number</span>
+                                  <span className="font-mono text-xs font-bold text-[#f8f1e9] select-all">03270711962</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    try {
+                                      navigator.clipboard.writeText("03270711962");
+                                      setJazzCashCopied(true);
+                                      setTimeout(() => setJazzCashCopied(false), 2000);
+                                    } catch (e) {}
+                                  }}
+                                  className="text-[9px] font-semibold bg-[#1e130d] hover:bg-[#d4a373] text-[#d4a373] hover:text-[#120a07] border border-[#d4a373]/20 px-2 py-1 rounded transition"
+                                >
+                                  {jazzCashCopied ? "Copied" : "Copy"}
+                                </button>
+                              </div>
+                              <div className="bg-[#120a07] border border-[#2a1b12] p-2 rounded-xl">
+                                <span className="text-[8px] text-[#8d7c6b] block uppercase tracking-wide">Account Title</span>
+                                <span className="font-sans text-xs font-bold text-[#f8f1e9] truncate block">Shazia Anwar</span>
+                              </div>
+                            </div>
+
+                            <div className="bg-amber-500/5 border border-amber-500/15 p-2 rounded-xl text-[10px] text-amber-300 font-light leading-relaxed">
+                              📸 <strong>Action Plan:</strong> Screenshot your payment receipt and WhatsApp it to <strong>03019842814</strong> with your Order ID <strong>{order.id}</strong>!
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="bg-green-950/15 border border-green-800/35 rounded-2xl p-4 flex items-start gap-2.5 text-xs text-green-400">
+                          <span>✅</span>
+                          <div className="space-y-0.5 text-left">
+                            <strong className="block font-bold">JazzCash Wallet Payment Secured</strong>
+                            <p className="font-light text-[11px] text-green-500/85 leading-relaxed">
+                              Our kitchen team confirmed receipt submission for this ticket. Your order is secured and is transitioning through baking queues.
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Greeting Note Preview if present */}
                       {order.isGift && order.giftMessage && (
