@@ -134,9 +134,32 @@
       }
     </script>
 
-    <!-- Meta / Facebook Pixel Tracking ID Placeholder (Uncomment and replace 'YOUR_PIXEL_ID' when active) -->
-    <!--
+    <!-- Ads Tracking Integration (Facebook Pixel & Google Tag) -->
     <script>
+      // Retrieve system resolved IDs (replaced by Vite build steps)
+      const FB_PIXEL_ID = "%VITE_FACEBOOK_PIXEL_ID%" || "";
+      const GOOGLE_ADS_ID = "%VITE_GOOGLE_ADS_ID%" || "";
+
+      // Initialize Google Data Layer stub
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+
+      // If valid Google Ads ID is present, inject external script
+      if (GOOGLE_ADS_ID && !GOOGLE_ADS_ID.startsWith("%")) {
+        console.log("Initializing Google Ads & Analytics tracking with ID:", GOOGLE_ADS_ID);
+        gtag('config', GOOGLE_ADS_ID);
+        
+        const gScript = document.createElement('script');
+        gScript.async = true;
+        gScript.src = "https://www.googletagmanager.com/gtag/js?id=" + GOOGLE_ADS_ID;
+        document.head.appendChild(gScript);
+      } else {
+        console.log("Google Ads ID placeholder is not configured yet. Add VITE_GOOGLE_ADS_ID in env secrets.");
+      }
+
+      // Initialize Facebook Pixel stub helper
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -145,11 +168,17 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', 'YOUR_PIXEL_ID');
-      fbq('track', 'PageView');
+
+      if (FB_PIXEL_ID && !FB_PIXEL_ID.startsWith("%")) {
+        console.log("Initializing Facebook Pixel Tracking with ID:", FB_PIXEL_ID);
+        fbq('init', FB_PIXEL_ID);
+        fbq('track', 'PageView');
+      } else {
+        console.log("Facebook Pixel ID placeholder is not configured yet. Add VITE_FACEBOOK_PIXEL_ID in env secrets.");
+        // Stub to prevent uncaught reference errors on raw window calls
+        window.fbq = window.fbq || function() { console.log("[FBQ Stub Event triggered]", arguments); };
+      }
     </script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
-    -->
   </head>
   <body>
     <div id="root"></div>

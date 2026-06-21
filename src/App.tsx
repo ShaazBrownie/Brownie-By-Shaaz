@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrownieItem, CartItem, Review } from "./types";
 import heroBrowniesImg from "./assets/images/hero_brownies_1781435720665.jpg";
 import appLogoImg from "./assets/images/app_logo_1781458498390.jpg";
+import { adTracker } from "./lib/analytics";
 import { BROWNIE_ITEMS, CUSTOMER_REVIEWS, SOCIAL_LINKS, WHATSAPP_NUMBER } from "./data";
 import MenuSection from "./components/MenuSection";
 import BoxBuilder from "./components/BoxBuilder";
@@ -59,6 +60,11 @@ export default function App() {
     localStorage.setItem("brownie_cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // Initial page view event tracking for Facebook and Google Ads
+  useEffect(() => {
+    adTracker.trackPageView();
+  }, []);
+
   // Handle adding standard brownie boxes to cart
   const handleAddToCart = (item: BrownieItem, pieces: 4 | 6) => {
     const cartId = `${item.id}-${pieces}`;
@@ -84,6 +90,9 @@ export default function App() {
         }
       ];
     });
+
+    // Track Facebook & Google AddToCart events
+    adTracker.trackAddToCart(item.id, `${item.name} (${pieces} pieces)`, price, 1);
   };
 
   // Handle adding custom assortments box builder items to cart
@@ -115,6 +124,9 @@ export default function App() {
     };
 
     setCartItems((prev) => [...prev, customCartItem]);
+
+    // Track Facebook & Google Ads AddToCart events for the custom compiled box
+    adTracker.trackAddToCart("custom-assorted", customName, price, 1);
   };
 
   // Adjust cart items count

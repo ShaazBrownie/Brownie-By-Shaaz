@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BROWNIE_ITEMS } from "../data";
+import { adTracker } from "../lib/analytics";
 import { Box, Sparkles, Plus, Minus, Trash2, Check, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -20,13 +21,18 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
 
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Let's set set prices for custom curated mix boxes
+  const customBoxPrice = boxSize === 4 ? 1600 : 2400;
+
+  // Trigger ViewContent when builder is active
+  useEffect(() => {
+    adTracker.trackViewContent("custom-box-builder", `Gourmet Custom Box Builder (${boxSize} Pcs)`, customBoxPrice);
+  }, [boxSize]);
+
   const totalSelected = Object.keys(selections).reduce<number>((acc, key) => {
     return acc + (selections[key] || 0);
   }, 0);
   const remainingSlots = boxSize - totalSelected;
-
-  // Let's set set prices for custom curated mix boxes
-  const customBoxPrice = boxSize === 4 ? 1600 : 2400;
 
   const handleSizeChange = (size: 4 | 6) => {
     setBoxSize(size);

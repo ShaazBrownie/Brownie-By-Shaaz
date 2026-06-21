@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrownieItem } from "../types";
+import { adTracker } from "../lib/analytics";
 import { BROWNIE_ITEMS } from "../data";
 import { Sparkles, ShoppingBag, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -21,8 +22,26 @@ export default function MenuSection({ onAddToCart }: MenuSectionProps) {
   // Track success animation state per product
   const [addedStates, setAddedStates] = useState<Record<string, boolean>>({});
 
+  // Track high-intent engagement when visitors explore the signature menu
+  useEffect(() => {
+    // Track primary featured product (Fudge brownie box) as default view
+    const mainProduct = BROWNIE_ITEMS.find(item => item.id === "fudge");
+    if (mainProduct) {
+      adTracker.trackViewContent(
+        mainProduct.id,
+        `${mainProduct.name} (Menu View)`,
+        mainProduct.prices[4]
+      );
+    }
+  }, []);
+
   const handleSizeChange = (itemId: string, size: 4 | 6) => {
     setSelectedSizes((prev) => ({ ...prev, [itemId]: size }));
+    // Track ViewContent event when customer toggles different size packs
+    const item = BROWNIE_ITEMS.find(i => i.id === itemId);
+    if (item) {
+      adTracker.trackViewContent(item.id, `${item.name} (${size} pieces pack)`, item.prices[size]);
+    }
   };
 
   const handleAddClick = (item: BrownieItem) => {

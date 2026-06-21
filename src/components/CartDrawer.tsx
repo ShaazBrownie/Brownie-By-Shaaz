@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CartItem } from "../types";
 import { WHATSAPP_NUMBER } from "../data";
+import { adTracker } from "../lib/analytics";
 import { X, Plus, Minus, Trash2, ShoppingBag, Gift, User, Phone, MapPin, Calendar, Send, Sparkles, CheckCircle2, Copy, FileText, ChevronDown, Wallet, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -46,6 +47,15 @@ export default function CartDrawer({
   const [confirmedOrder, setConfirmedOrder] = useState<{ id: string; waUrl: string } | null>(null);
   const [copied, setCopied] = useState(false);
   const [jazzCashCopied, setJazzCashCopied] = useState(false);
+
+  // Trigger InitiateCheckout when the cart drawer is opened and has items
+  useEffect(() => {
+    if (isOpen && cartItems.length > 0) {
+      const totalVal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      const itemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+      adTracker.trackInitiateCheckout(totalVal, itemsCount);
+    }
+  }, [isOpen, cartItems.length]);
 
   // Get previous loyalty statistics for current phone
   const getCustomerLoyalty = (phoneNum: string) => {
@@ -234,6 +244,14 @@ Thank you for supporting our homemade brownie business! Baked with love by Shaaz
     } catch (e) {
       console.warn("Failed to write offline local storage order:", e);
     }
+
+    // Track the purchase event for Facebook & Google Ads conversions
+    adTracker.trackPurchase(orderId, totalBill, cartItems.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    })));
 
     // POST order directly to backend JSON store so it's instantly trackable
     fetch("/api/orders", {
