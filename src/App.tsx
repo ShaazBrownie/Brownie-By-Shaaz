@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrownieItem, CartItem, Review } from "./types";
 import heroBrowniesImg from "./assets/images/hero_brownies_1781435720665.jpg";
 import appLogoImg from "./assets/images/app_logo_1781458498390.jpg";
@@ -175,6 +175,19 @@ export default function App() {
 
   // Calculate items count
   const cartTotalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Subtle bouncing animation trigger when new items are added to the cart
+  const [isBouncing, setIsBouncing] = useState(false);
+  const prevTotalItemsRef = useRef(cartTotalItems);
+
+  useEffect(() => {
+    if (cartTotalItems > prevTotalItemsRef.current) {
+      setIsBouncing(true);
+      const timer = setTimeout(() => setIsBouncing(false), 800);
+      return () => clearTimeout(timer);
+    }
+    prevTotalItemsRef.current = cartTotalItems;
+  }, [cartTotalItems]);
 
   return (
     <div className="bg-[#120a07] text-[#f8f1e9] font-sans min-h-screen relative overflow-x-hidden selection:bg-[#d4a373] selection:text-[#120a07]">
@@ -835,21 +848,38 @@ export default function App() {
           <div id="floating-left-checkout" className="fixed left-4 bottom-6 md:left-8 md:bottom-8 z-40 flex flex-col gap-2 pointer-events-auto">
             <motion.div
               initial={{ opacity: 0, x: -50, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
+              animate={isBouncing ? {
+                opacity: 1,
+                x: 0,
+                y: [0, -14, 0, -7, 0, -2, 0],
+                scale: [1, 1.07, 0.98, 1.04, 1]
+              } : {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                scale: 1
+              }}
               exit={{ opacity: 0, x: -50, scale: 0.8 }}
-              transition={{ type: "spring", damping: 20 }}
+              transition={isBouncing ? {
+                duration: 0.75,
+                times: [0, 0.25, 0.5, 0.7, 0.85, 0.95, 1],
+                ease: "easeOut"
+              } : {
+                type: "spring",
+                damping: 20
+              }}
               className="relative group"
             >
               {/* Subtle warm glow background */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#d4a373] to-[#8d7c6b] rounded-full blur-md opacity-25 group-hover:opacity-40 transition duration-300" />
+              <div className={`absolute -inset-0.5 bg-gradient-to-r from-[#d4a373] to-[#8d7c6b] rounded-full blur-md transition-all duration-300 ${isBouncing ? "opacity-60 scale-105" : "opacity-25 group-hover:opacity-40"}`} />
               
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative flex items-center gap-2.5 bg-[#1e130d] border border-[#d4a373]/80 hover:border-[#f8f1e9] text-[#f8f1e9] hover:bg-[#2a1b12] shadow-2xl rounded-full p-2 pr-3.5 transition duration-300 group cursor-pointer"
+                className={`relative flex items-center gap-2.5 bg-[#1e130d] border ${isBouncing ? "border-[#d4a373] ring-2 ring-[#d4a373]/50 shadow-[0_0_20px_rgba(212,163,115,0.4)]" : "border-[#d4a373]/80 hover:border-[#f8f1e9]"} text-[#f8f1e9] hover:bg-[#2a1b12] shadow-2xl rounded-full p-2 pr-3.5 transition duration-300 group cursor-pointer`}
                 title="Review & Checkout Order"
               >
                 {/* Dynamic visual bag badge */}
-                <div className="relative flex items-center justify-center bg-[#d4a373] text-[#120a07] w-8 h-8 rounded-full shadow-inner transition group-hover:rotate-6 duration-300">
+                <div className={`relative flex items-center justify-center bg-[#d4a373] text-[#120a07] w-8 h-8 rounded-full shadow-inner transition-transform duration-300 ${isBouncing ? "scale-110 rotate-12" : "group-hover:rotate-6"}`}>
                   <ShoppingBag className="w-3.5 h-3.5" />
                 </div>
 
