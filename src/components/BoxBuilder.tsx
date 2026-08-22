@@ -16,13 +16,12 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
     oreo: 0,
     dairymilk: 0,
     nutella: 0,
-    slutty: 0,
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Let's set set prices for custom curated mix boxes
-  const customBoxPrice = boxSize === 4 ? 1600 : 2400;
+  // Set prices for custom curated mix boxes (4 pcs: Rs 1400, 6 pcs: Rs 2000 as per brochure)
+  const customBoxPrice = boxSize === 4 ? 1400 : 2000;
 
   // Trigger ViewContent when builder is active
   useEffect(() => {
@@ -42,7 +41,6 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
       oreo: 0,
       dairymilk: 0,
       nutella: 0,
-      slutty: 0,
     });
   };
 
@@ -68,7 +66,6 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
       oreo: 0,
       dairymilk: 0,
       nutella: 0,
-      slutty: 0,
     });
   };
 
@@ -142,7 +139,7 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
                         : "text-[#8d7c6b] hover:text-[#f8f1e9]"
                     }`}
                   >
-                    4 Brownies (Rs 1600)
+                    4 Brownies (Rs 1400)
                   </button>
                   <button
                     onClick={() => handleSizeChange(6)}
@@ -152,7 +149,7 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
                         : "text-[#8d7c6b] hover:text-[#f8f1e9]"
                     }`}
                   >
-                    6 Brownies (Rs 2400)
+                    6 Brownies (Rs 2000)
                   </button>
                 </div>
               </div>
@@ -182,7 +179,7 @@ export default function BoxBuilder({ onAddCustomBoxToCart }: BoxBuilderProps) {
                             {item.name}
                           </h4>
                           <span className="text-xs text-[#d4a373] font-sans">
-                            {item.id === "slutty" ? "3-Layered Epic" : "Gourmet recipe"}
+                            {item.tags[0] || "Artisanal recipe"}
                           </span>
                         </div>
                       </div>

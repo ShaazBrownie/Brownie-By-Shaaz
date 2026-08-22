@@ -801,10 +801,9 @@ export default function App() {
               </h4>
               <ul className="space-y-2.5">
                 <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">Chocolate Fudge Brownies</a></li>
-                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">Classic Oreo Brownies</a></li>
-                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">Dairy Milk Chunks Brownies</a></li>
-                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">Hazelnut Nutella Swirls</a></li>
-                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">3-Layered Slutty Brownies</a></li>
+                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">Oreo Brownies</a></li>
+                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">DairyMilk Brownies</a></li>
+                <li><a href="#menu" className="hover:text-[#d4a373] transition-colors block">Nutella Brownies</a></li>
               </ul>
             </div>
 

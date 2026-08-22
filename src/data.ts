@@ -20,54 +20,43 @@ export const BROWNIE_ITEMS: BrownieItem[] = [
     description: "The classic gold-standard! Incredibly fudgy, dense, and rich cocoa brownie with our signature shiny, paper-thin crinkled top. Truly irresistible.",
     image: fudgeBrownieImg,
     prices: {
-      4: 1400,
-      6: 2100
+      4: 1300,
+      6: 1800
     },
-    tags: ["Signature", "Fudgy Classy"]
+    tags: ["Signature", "Fudgy Classic"]
   },
   {
     id: "oreo",
-    name: "Classic Oreo Brownies",
-    description: "Gooey chocolate fudge brownies baked on a base of whole Oreos and generous cookie chunks inside, loaded with crushed Oreos on top for the perfect crunch-meld.",
+    name: "Oreo Brownies",
+    description: "Gooey chocolate fudge brownies baked on a base of whole Oreos and cookie chunks inside, topped with crushed Oreos for the perfect crunch-meld.",
     image: oreoBrownieImg,
     prices: {
       4: 1400,
-      6: 2100
+      6: 2000
     },
     tags: ["Bestseller", "Crunchy & Gooey"]
   },
   {
     id: "dairymilk",
-    name: "Dairy Milk Brownies",
-    description: "Packed with thick melt-in-your-mouth chunks of premium Cadbury Dairy Milk chocolate, blending perfectly with our smooth signature brownie batter as it bakes.",
+    name: "DairyMilk Brownies",
+    description: "Packed with thick melt-in-your-mouth chunks of premium Cadbury Dairy Milk chocolate, blending smoothly with our rich brownie batter.",
     image: dairymilkBrownieImg,
     prices: {
-      4: 1500,
-      6: 2300
+      4: 1400,
+      6: 2000
     },
-    tags: ["Premium", "Kid Favorite"]
+    tags: ["Premium", "Rich Chunks"]
   },
   {
     id: "nutella",
-    name: "Nutella Swirl Brownies",
-    description: "Marbled with thick layers of premium hazelnut Nutella spread before baking. Delivers double the creamy, nutty chocolate depth in every luxurious slice.",
+    name: "Nutella Brownies",
+    description: "Marbled with generous swirls of premium hazelnut Nutella spread before baking. Delivers double the creamy, nutty chocolate depth in every slice.",
     image: nutellaBrownieImg,
     prices: {
-      4: 1600,
-      6: 2400
+      4: 1400,
+      6: 2000
     },
     tags: ["Staff Pick", "Intensely Rich"]
-  },
-  {
-    id: "slutty",
-    name: "Decadent Slutty Brownies",
-    description: "The ultimate 3-layered gourmet dessert! Features a buttery chocolate chip cookie dough base, a middle layer of whole Oreo cookies, topped with our signature rich chocolate fudge brownie batter.",
-    image: sluttyBrownieImg,
-    prices: {
-      4: 1800,
-      6: 2700
-    },
-    tags: ["Ultimate Decadence", "Crowd Pleaser"]
   }
 ];
 
@@ -77,7 +66,7 @@ export const CUSTOMER_REVIEWS: Review[] = [
     author: "Zainab K.",
     rating: 5,
     date: "14 days ago",
-    text: "Ordered the Slutty Brownies for my brother's birthday. They were absolutely out of this world! The chocolate cookie dough, Oreo, and brownie layer is genius. Unmatched taste in town!",
+    text: "Ordered the Oreo & Nutella Brownies for my brother's birthday. They were absolutely out of this world! Dense, gooey, and rich. Unmatched taste in town!",
     platform: "instagram",
     likes: 24
   },
@@ -104,7 +93,7 @@ export const CUSTOMER_REVIEWS: Review[] = [
     author: "Bilal Lodhi",
     rating: 5,
     date: "2 months ago",
-    text: "Amazing taste that doesn't feel overly sweet. Baked right, dense, fudgy, and moist inside. The Dairy Milk brownie had real chocolate chunks. Fast response on WhatsApp too!",
+    text: "Amazing taste that doesn't feel overly sweet. Baked right, dense, fudgy, and moist inside. The DairyMilk brownie had real chocolate chunks. Fast response on WhatsApp too!",
     platform: "facebook",
     likes: 31
   }

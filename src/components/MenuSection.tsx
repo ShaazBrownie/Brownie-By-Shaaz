@@ -16,7 +16,6 @@ export default function MenuSection({ onAddToCart }: MenuSectionProps) {
     oreo: 4,
     dairymilk: 4,
     nutella: 4,
-    slutty: 4,
   });
 
   // Track success animation state per product
@@ -45,7 +44,7 @@ export default function MenuSection({ onAddToCart }: MenuSectionProps) {
   };
 
   const handleAddClick = (item: BrownieItem) => {
-    const size = selectedSizes[item.id];
+    const size = selectedSizes[item.id] || 4;
     onAddToCart(item, size);
 
     // Trigger checkmark animation
@@ -72,8 +71,8 @@ export default function MenuSection({ onAddToCart }: MenuSectionProps) {
           </p>
         </div>
 
-        {/* Brownies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Brownies Grid (2x2 layout for 4 items matching brochure) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {BROWNIE_ITEMS.map((item) => {
             const currentSize = selectedSizes[item.id] || 4;
             const currentPrice = item.prices[currentSize];
@@ -200,6 +199,41 @@ export default function MenuSection({ onAddToCart }: MenuSectionProps) {
             );
           })}
         </div>
+
+        {/* Brochure "Order of Make" Process Bar */}
+        <div className="mt-16 bg-[#1e130d] border border-[#2a1b12] rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto shadow-xl">
+          <div className="text-center mb-6">
+            <span className="text-[#d4a373] text-[11px] uppercase tracking-[0.25em] font-semibold block">
+              Our Artisanal Process
+            </span>
+            <h3 className="text-xl sm:text-2xl font-serif text-[#f8f1e9] font-light mt-1">
+              Order of Make
+            </h3>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+            {[
+              { step: "1", title: "Premium Ingredients", desc: "Pure butter & cocoa" },
+              { step: "2", title: "Perfect Mixing", desc: "Emulsified batter" },
+              { step: "3", title: "Baked with Care", desc: "Precision temperature" },
+              { step: "4", title: "Cool & Set Right", desc: "Fudgy core locking" },
+              { step: "5", title: "Cut to Perfection", desc: "Clean sharp squares" },
+              { step: "6", title: "Packed with Love", desc: "Luxury gift packaging" },
+            ].map((item) => (
+              <div key={item.step} className="bg-[#120a07]/70 border border-[#2a1b12] rounded-2xl p-3.5 flex flex-col items-center">
+                <span className="w-7 h-7 rounded-full bg-[#2a1b12] border border-[#d4a373]/40 text-[#d4a373] text-xs font-serif font-bold flex items-center justify-center mb-2">
+                  {item.step}
+                </span>
+                <span className="text-xs font-semibold text-[#f8f1e9] leading-tight block">
+                  {item.title}
+                </span>
+                <span className="text-[10px] text-[#8d7c6b] mt-1 font-light block">
+                  {item.desc}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
